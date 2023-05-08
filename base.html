@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="static/main.css"></link>
+    <script src="static/main.js"></script>
+  </head>
+  <body>
+    <h1>{{ heading }}</h1>
+
+    {% block content %}
+
+<div class="container">
+<div class="logo">
+				
+</div>
+				
+<div class="create_btn_logo">
+				<img src="static/logo.png" alt="logo"></img>
+				<button onclick="open_close_post_bar()">Create Post +</button>
+</div>
+
+</div>
+
+
+<div class="create_post_box">
+		
+	 <div class="create_post_box_content" id="open_bar">
+	 				
+	 	<div class="content">
+	
+	 	<div class="create_post">
+						<h1>Create post</h1>
+		
+		</div>
+		
+		
+		<div class="close">
+						<button onclick="close_bar()">X</button>
+		</div>
+	
+	 				
+    <form action="/main" method="POST">
+  				<p>Title:</p>
+ 				 <input type="text" id="title" name="title" class="title"><br>
+				
+				<p>Content:</p>
+				<input type="text" id="content" name="content" class="article"><br>
+				
+  				<p>Author:</p>
+  				<input type="text" id="author" name="author" class="author"><br>
+				
+				<div class="post_btn">
+						<input type="submit" value="Post">
+		</div>
+				</form>
+</div>
+</div>
+</div>
+
+    {% for row in data %}
+<div class="post_container">
+<div class="post_content">
+	<p><b>Posted: {{ row.date_time }}</b><br>
+  <h1>{{ row.title }}</h1>
+  <p>{{ row.article }}</p>
+  <p>Author: {{ row.author }}</p>
+  
+</div>
+</div>
+				{% endfor %}
+
+
+    {% endblock %}
+
+
+  </body>
+</html>
