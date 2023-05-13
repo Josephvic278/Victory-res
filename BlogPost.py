@@ -22,7 +22,6 @@ class BlogPost(db.Model):
 
 class User_signup(db.Model):
 	__bind_key__ = "user"
-	#hello would bala bluw
 	id = db.Column(db.Integer, primary_key = True)
 	first_name = db.Column(db.String, default="User"+str(id))
 	last_name = db.Column(db.String, nullable=False)
@@ -42,18 +41,31 @@ def main():
 
 @app.route("/t_s_f/sign_up", methods=["GET","POST"])
 def sign_up():
+	users_d = db.session.query(User_signup).all()
 	if request.method == "POST":
+		users_email = []
+		
 		first_name = request.form["firstname"]
 		last_name = request.form["lastname"]
 		user_name = request.form["username"]
 		email = request.form["email"]
 		password = request.form["password"]
 		
-		new_user = User_signup(first_name=first_name,last_name=last_name,user_name=user_name,email=email,password=password)
+		for u_e in range(len(users_d)):
+			users_email.append(users_d[u_e].email)
 		
-		db.session.add(new_user)
-		db.session.commit()
-		return redirect("/t_s_f/log_in")
+		error = ""
+		if email in users_email:
+			error = "User already exists"
+			
+			return render_template("signup.html",error = error)
+		
+		else:
+			new_user = User_signup(first_name=first_name,last_name=last_name,user_name=user_name,email=email,password=password)
+		
+			db.session.add(new_user)
+			db.session.commit()
+			return redirect("/t_s_f/log_in")
 	else:
 		return render_template("signup.html")
 
