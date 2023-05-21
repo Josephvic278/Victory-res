@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+				<meta charset="UTF-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>Log in</title>
+				<link rel="stylesheet" href="{{url_for('static',filename='login.css')}}"></link>
+<body>
+    <div class="top_bar">			
+				<img src="{{url_for('static', filename='Nlogo.png')}}" alt="logo" class="logo"></img>
+</div>
+
+    <div class="main_con">
+        <div class="form_con">
+				<form action="/t_s_f/log_in" method="POST">
+								<h1 class="login_t">Log in to your <b class="bn">TSF</b> account</h1>
+								<p>Email address</p>
+							<input type="email" name="email" id="email" class="inputs"><br>
+							<p>Password</p>
+							<input type="password" name="password" id="password" class="inputs" ><p class="error1">{{error1}}</p><br>
+							
+							<div class="sfnt">
+							<input type="checkbox" name="check" id="check" class="check"><p class="s">Save login info for next time</p>
+							</div>
+							<input type="submit" value="Log in" class="sub_btn">
+				</form>
+</div>
+</div>
+
+<p class="login"><a href="http://localhost:5000/t_s_f/sign_up" class="login">Sign up</a></p>
+				<p class="tandc">Read our <a href="" class="login">Term and Conditions.</a></p>
+</body>
+</html>

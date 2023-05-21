@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+				<meta charset="UTF-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>Sign up</title>
+				<link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
+				<script type="text/javascript" src="{{ url_for('static', filename='signup.js') }}"></script>
+</head>
+<body>
+ <div class="top_bar">			
+				<img src="{{url_for('static', filename='Nlogo.png')}}" alt="logo" class="logo"></img>
+</div>
+    
+<div class="main_con">
+<div class="form_container">
+    <h1 class="create_h1" onclick="eye()">Create a <b class="title">TSF </b> account</h1>
+				<p class="create_acc">Create an account to join our scientific forum</p>
+				
+				<form action="/t_s_f/sign_up" method="POST">
+				    <p>First name</p>
+								<input type="text" name="firstname" id="firstname" class="input_bar" ><br>
+						<p>Last name</p>
+								<input type="text" name="lastname" id="lastname" class="input_bar"><br>
+						<p>Username</p>
+								<input type="text" name="username" id="username" class="input_bar"><br>
+						<p>Email address</p>
+								<input type="email" name="email" id="email"  class="input_bar"><br>
+						<p>Password</p>
+						<div class="pass_eye">
+								<input type="password" name="password" id="password" class="input_barp" oninput="check_pass()"><br>
+								
+								<img src="{{ url_for('static', filename='closeeye.png') }}" class="eye" onclick="eye()" id="eye_e">
+
+								</div>
+								<p>{{error}}</p>
+								<div class="aunthen">
+								
+								<div class="a">
+								<p class="fp" id="fp">x</p>
+								<p class="fts">may be more than 8 characters</p>  
+								</div>
+								
+								<div class="a2">
+								    <p class="fp" id="fp2">x</p>
+								    <p class="fts">may have a symbol eg: #@%$!?</p>
+								</div>
+								 
+								 <div class="a3">
+								     <p class="fp" id="fp3">x</p>
+								    <p class="fts">may have an upper case</p>
+								 </div>
+								 
+								</div>
+								<br>
+								<input type="text" id="user_dp" name="user_p" class="hide">
+								<input type="submit" value="Sign Up" onclick="run()" id="sub" >
+				</form>
+				<p class="login"><a href="http://localhost:5000/t_s_f/log_in" class="login">Log in</a></p>
+				<p class="tandc">By creating an account you agree to our <a href="" class="login">Term and Conditions.</a></p>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{{url_for('static', filename='user_page.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static',filename='user_page.css')}}">
+    <title>Page title</title>
+</head>
+<body>
+    {% set u_l = [] %}
+    {% for it in  db_data %}
+    {% if uid == it.id %}
+    {% set _ = u_l.append(it.first_name) %}
+    {% set _ = u_l.append(it.last_name) %}
+    {% set _= u_l.append(it.user_name) %}
+    {% set _= u_l.append(it.email) %}
+    {% set _= u_l.append(it.password) %}
+    {% endif %}
+    {% endfor %}
+    
+    <div class="top_bar" id="menuBar">
+        <img src="{{url_for('static',filename='Nlogo.png')}}" alt="" class="logo"></img>
+        
+        <img src="{{url_for('static',filename='menu_btn1.png')}}" alt="" class="menuButton" onclick="openUserProfile()"></img>
+        
+        <img src="{{url_for('static',filename='bell.png')}}" alt="" class="notificationButton"></img>
+    </div>
+    
+    <div class="userProfile" id="userProfile">
+        <div class="topBox">
+            
+            <h2 class="myProfileText">My<br><b>Profile</b></h2>
+            <img src="{{url_for('static',filename='close.png')}}" alt="" class="closeProfileButton" onclick="closeUserProfile()"></img>
+            <div class="userBoxBackground">
+            <div class="userBox">
+              
+              <div class="userProfilePictureBackground"> 
+                <img src="{{pic_url}}" alt="" class="userProfilePicture">
+                   <a href="{{url_for('edit_profile',uid=uid,un=un)}}"><img src="{{url_for('static',filename='camera.png')}}" alt="" class="cameraIcon" onclick="changeDp()"></img> 
+                
+            </img></a>
+                </img>
+                
+                <a href="{{url_for('edit_profile',uid=uid,un=un)}}"><img src="{{url_for('static',filename='edit.png')}}" alt="edit button" class="editProfileButton" ></img></a> 
+                             
+                <h2 class="userFirstandLastName">{{u_l[0]}} {{u_l[1]}}</h2>
+                <h2 class="userName">{{u_l[2]}}</h2>
+                
+                <div class="userEngagement">
+                    <h3 class="userEngagementText1"><b class="engagementNumbers">0</b><br>Likes</h3>
+                    <h3 class="userEngagementText"><b class="engagementNumbers">0</b><br>Views</h3>
+                    <h3 class="userEngagementText"><b class="engagementNumbers">0</b><br>Follow</h3>
+                    
+                </div>
+                
+            </div>
+            </div>
+             
+            </div>
+             
+        </div>
+        
+        <div class="userOptions">
+        
+        <div class="optionBoxes">
+            <img src="{{url_for('static',filename='skills.png')}}" alt="" class="optionIcons"></img>
+            <h1 class="optionIconsH1">Account<p class="optionIconsP">Account information and Settings.</p></h1>           
+        </div>
+        
+        <div class="optionBoxes">
+            <img src="{{url_for('static',filename='comments.png')}}" alt="" class="optionIcons"></img>
+            <h1 class="optionIconsH1">Messages <p class="optionIconsP">Receive and Reply messages from other users.</p></h1>
+            
+        </div>
+        
+        <div class="optionBoxes">
+            <img src="{{url_for('static',filename='friends.png')}}" alt="" class="optionIcons"></img>
+            <h1 class="optionIconsH1">Friends<p class="optionIconsP">View friends and followers.</p>  </h1>      
+        </div>
+        
+        <div class="optionBoxes">
+            <img src="{{url_for('static',filename='info.png')}}" alt="" class="optionIcons"></img>
+            <h1 class="optionIconsH1">About us<p class="optionIconsP">Learn more about us and what we do.</p></h1>
+        </div>
+        
+       <div class="optionBoxes">
+            <img src="{{url_for('static',filename='logout.png')}}" alt="" class="optionIcons"></img>
+            <h1 class="optionIconsH1">Logout<p class="optionIconsP">Log out of your account .</p></h1>
+        </div> 
+        
+    </div>
+   <div class="termsAndConditions">
+          <p>Read our <a href="">Terms and Conditions</a></p>
+      </div>      
+      </div> 
+        
+    </div>
+    
+</body>
+</html>

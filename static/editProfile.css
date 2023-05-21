@@ -1,0 +1,90 @@
+*{
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    padding: 0;
+    background: white;
+}
+.editProfile{
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    background: white;
+}
+.editProfileText{
+    text-align: center;
+    font-family: Calibri;
+    font-weight: 400;
+    font-size: 25px;
+    margin-top: 2px;
+}
+.editProfileTextB{
+    color: #19A7CE;
+}
+.editPhoto{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.editProfilePicture{
+    width: 120px;
+    height:120px ;
+    border-radius: 100%;
+    object-fit: cover;
+    border: 2px solid #19A7CE;
+}
+.cameraIcon{
+    width: 30px;
+    float: right;
+    margin-top: 70px;
+    background: ;
+    margin-left:-29px;
+}
+.editInputs{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 100%;
+}
+.editInputBars{
+    width: 90%;
+}
+.inputTitle{
+    font-family: Calibri;
+    font-size: 15px;
+    margin-top: 33px;
+    font-weight: 600;
+}
+.editInputBar{
+    width: 100%;
+    margin-top: 0px;
+    height: 30px;
+    border-radius: 2px;
+    border: 1px solid gray;
+}
+.submitBackground{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+.submitButton{
+    height: 35px;
+    width: 90%;
+    border: none;
+    color: white;
+    background: #19A7CE;
+    border-radius: 10px;
+}
+.error{
+    font-family: Calibri;
+    font-size: 13px;
+    margin: 3px;
+    color: red;
+}
+.hide{
+    display: none;
+}

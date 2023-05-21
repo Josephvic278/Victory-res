@@ -10,10 +10,8 @@
 
     {% block content %}
 
+<div class="top_bar">
 <div class="container">
-<div class="logo">
-				
-</div>
 				
 <div class="create_btn_logo">
 				<img src="static/logo.png" alt="logo"></img>
@@ -21,7 +19,7 @@
 </div>
 
 </div>
-
+</div>
 
 <div class="create_post_box">
 		
@@ -42,13 +40,21 @@
 	 				
     <form action="/main" method="POST">
   				<p>Title:</p>
- 				 <input type="text" id="title" name="title" class="title"><br>
+ 				 <textarea type="text" id="title" name="title" class="title"></textarea><br>
 				
 				<p>Content:</p>
-				<input type="text" id="content" name="content" class="article"><br>
+				<textarea type="text" id="content" name="content" class="article"></textarea><br>
 				
   				<p>Author:</p>
-  				<input type="text" id="author" name="author" class="author"><br>
+  				<textarea id="author" name="author" class="author"></textarea><br>
+				
+				<div class="add_attatchment">
+								<img src="static/Attachment icon.png" alt="" id="img">
+								</img><br>
+				<input type="file" accept="jpg,png,svg,jpeg" id="file" onchange="file_f()" class="file_c">				
+				</div>
+				
+				<input type="text" id="send_img" name="img" class="send_img">
 				
 				<div class="post_btn">
 						<input type="submit" value="Post">
@@ -58,21 +64,27 @@
 </div>
 </div>
 
+<div class="et_body">
     {% for row in data %}
 <div class="post_container">
+
 <div class="post_content">
-	<p><b>Posted: {{ row.date_time }}</b><br>
+<div class="main_cont">
+					
+	<h3 class="post_opt">...</h3>
+	<p>Posted: {{ row.date_time }} </p>
+	
   <h1>{{ row.title }}</h1>
   <p>{{ row.article }}</p>
+  <img src="{{ row.img_path|safe }}"></img>
   <p>Author: {{ row.author }}</p>
-  
+
+</div>
 </div>
 </div>
 				{% endfor %}
-
+</div>
 
     {% endblock %}
-
-
   </body>
 </html>

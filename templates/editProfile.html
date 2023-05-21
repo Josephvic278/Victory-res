@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page title</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='editProfile.css')}}">
+    <script src="{{url_for('static',filename='editProfile.js')}}"></script>
+</head>
+<body>
+ 
+     {% set u_l = [] %}
+    {% for it in user_data %}
+    {% if un == it.user_name %}
+    {% set _ = u_l.append(it.first_name) %}
+    {% set _ = u_l.append(it.last_name) %}
+    {% set _= u_l.append(it.user_name) %}
+    {% set _= u_l.append(it.email) %}
+    {% set _= u_l.append(it.password) %}
+    {% endif %}
+    {% endfor %}
+    
+    <div class="editProfile" id="editProfile">
+        <h2 class="editProfileText">Edit your <b class="editProfileTextB">profile</b></h2>
+        
+        <div class="editPhoto">
+            
+            <img src="{{user_pic}}" alt="" class="editProfilePicture" id="img">
+               
+               <img src="{{url_for('static',filename='camera.png')}}" alt="" class="cameraIcon" onclick="changeDp()"></img> 
+                
+            </img>
+        </div>
+        
+        <div class="editInputs">
+            
+            <div class="editInputBars">
+            <form method="POST" action="{{url_for('edit_profile',uid=uid,un=un)}}">
+            <h2 class="inputTitle">First name</h2>
+            <input type="text" class="editInputBar" value="{{u_l[0]}}" name="firstname">
+            
+            <h2 class="inputTitle">Last name</h2>
+            <input type="text" class="editInputBar" value="{{u_l[1]}}" name="lastname">
+            
+            <h2 class="inputTitle">Username</h2>
+            <input type="text" class="editInputBar" value="{{u_l[2]}}" name="username">
+            
+            <h2 class="inputTitle">Email address</h2>
+            <input type="text" class="editInputBar" value="{{u_l[3]}}" name="email">
+            
+           <h2 class="inputTitle">Password</h2> 
+            <input type="password" placeholder="Enter your password to save changes" class="editInputBar" name="password">
+            <p class="error">{{error}}</p>
+            <input type="text" id="user_dp" name="userpp">
+            <div class="submitBackground">
+            <input type="submit" value="Save changes" class="submitButton">
+            </div>
+            </form>
+            </div>
+            
+        </div>
+        
+    </div>
+    <a href="" id="a" class="hide">download</a>
+    <input type="file" name="" id="file" onchange="file_f()" class="hide">
+
+</body>
+</html>
