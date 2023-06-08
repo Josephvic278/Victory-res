@@ -4,23 +4,33 @@
 body {
     margin: 0;
     padding: 0;
-    background: white;
+    background-color: #eff2f6;
+}
+.top_box{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
 }
 .editProfile{
     height: 100%;
-    width: 100%;
+    width: 95%;
     z-index: 1;
+    outline: 0.1px solid #eff2f6;
+		border: 1px solid rgba(0, 0, 0, 0.1);
     background: white;
+    border-radius: 5px;
 }
 .editProfileText{
-    text-align: center;
     font-family: Calibri;
-    font-weight: 400;
-    font-size: 25px;
-    margin-top: 2px;
+    font-weight: 600;
+    font-size: 20px;
+    margin-left: 5%;
+    margin-top: 20px;
 }
 .editProfileTextB{
-    color: #19A7CE;
+    color: #146C94;
 }
 .editPhoto{
     display: flex;
@@ -32,23 +42,53 @@ body {
     height:120px ;
     border-radius: 100%;
     object-fit: cover;
-    border: 2px solid #19A7CE;
+    border: 2px solid #146C94;
+}
+.editInputBars textarea{
+    margin-top: 15px;
+    margin-bottom: 10px;
+    width: 100%;
 }
 .cameraIcon{
     width: 30px;
-    float: right;
-    margin-top: 70px;
+    margin-top: 60px;
     background: ;
-    margin-left:-29px;
+    float: right;
+    margin-left: -28px;
 }
 .editInputs{
     justify-content: center;
     align-items: center;
     display: flex;
     width: 100%;
+    margin-top: 20px;
 }
 .editInputBars{
+   margin-bottom: 10px;
     width: 90%;
+}
+.editInputBars p{
+    font-family: Calibri;
+    font-size: 15px;
+    font-weight: 300;
+    margin-top: 10px;
+    margin-left: -3px;
+}
+.input_bar{
+				width: 95%;
+				height: 50px;
+				outline: 0.1px solid #eff2f6;
+				border: 1px solid rgba(0, 0, 0, 0.2);
+				border-radius: 3px;
+				font-family: Calibri;
+				z-index: 1;
+				transition: 0.5s;
+				text-indent: 15px;
+}
+.input_bar::placeholder{
+    font-size: 14px;
+    text-indent: 15px;
+    font-weight: 300;
 }
 .inputTitle{
     font-family: Calibri;
@@ -64,20 +104,17 @@ body {
     border: 1px solid gray;
 }
 .submitBackground{
-    justify-content: center;
-    align-items: center;
-    display: flex;
     width: 100%;
-    margin-bottom: 10px;
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 .submitButton{
-    height: 35px;
-    width: 90%;
+    height: 40px;
+    width: 40%;
     border: none;
     color: white;
-    background: #19A7CE;
-    border-radius: 10px;
+    background: #146C94;
+    border-radius: 5px;
 }
 .error{
     font-family: Calibri;
@@ -87,4 +124,21 @@ body {
 }
 .hide{
     display: none;
+}
+.bio{
+    height: 100px;
+    width: 95%;
+		outline: 0.1px solid #eff2f6;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		border-radius: 3px;
+		font-family: Calibri;
+		z-index: 1;
+		transition: 0.5s;
+		text-indent: 15px;
+}
+#sbtn1{
+    margin-left: 5%;
+}
+#spps{
+    margin-bottom: 15px;
 }

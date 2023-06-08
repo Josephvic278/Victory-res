@@ -6,6 +6,8 @@
     <title>Page title</title>
     <link rel="stylesheet" href="{{url_for('static',filename='editProfile.css')}}">
     <script src="{{url_for('static',filename='editProfile.js')}}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='signup.js') }}"></script>
 </head>
 <body>
  
@@ -17,52 +19,57 @@
     {% set _= u_l.append(it.user_name) %}
     {% set _= u_l.append(it.email) %}
     {% set _= u_l.append(it.password) %}
+    {% set _= u_l.append(it.user_bio) %}
     {% endif %}
     {% endfor %}
     
+    <div class="top_box">
     <div class="editProfile" id="editProfile">
-        <h2 class="editProfileText">Edit your <b class="editProfileTextB">profile</b></h2>
+        <h2 class="editProfileText">Account Setting</h2>
         
         <div class="editPhoto">
             
             <img src="{{user_pic}}" alt="" class="editProfilePicture" id="img">
-               
-               <img src="{{url_for('static',filename='camera.png')}}" alt="" class="cameraIcon" onclick="changeDp()"></img> 
-                
+                               <img src="{{url_for('static',filename='camera.png')}}" alt="" class="cameraIcon" onclick="changeDp()"></img> 
+                           
+                         
             </img>
         </div>
         
         <div class="editInputs">
             
             <div class="editInputBars">
-            <form method="POST" action="{{url_for('edit_profile',uid=uid,un=un)}}">
-            <h2 class="inputTitle">First name</h2>
-            <input type="text" class="editInputBar" value="{{u_l[0]}}" name="firstname">
+            <form method="POST" action="{{url_for('edit_profile',uid=uid,un=un)}}" enctype="multipart/form-data">
+            <p>First name</p>
+            <input type="text" class="input_bar" value="{{u_l[0]}}" name="firstname" placeholder="First name">
+            <p>Last name</p>
+            <input type="text" class="input_bar" value="{{u_l[1]}}" name="lastname" placeholder="Last name">
             
-            <h2 class="inputTitle">Last name</h2>
-            <input type="text" class="editInputBar" value="{{u_l[1]}}" name="lastname">
+            <p>Username</p>
+            <input type="text" class="input_bar" value="{{u_l[2]}}" name="username" placeholder="Username">
             
-            <h2 class="inputTitle">Username</h2>
-            <input type="text" class="editInputBar" value="{{u_l[2]}}" name="username">
+            <p>Email address</p>
+            <input type="text" class="input_bar" value="{{u_l[3]}}" name="email" placeholder="Email address">
             
-            <h2 class="inputTitle">Email address</h2>
-            <input type="text" class="editInputBar" value="{{u_l[3]}}" name="email">
+          <textarea placeholder="Bio" class="bio" name="u_bio">{{u_l[5]}}</textarea>             
+                                   
+            <input type="password" placeholder="Enter your password to save changes" class="input_bar" name="password" >
             
-           <h2 class="inputTitle">Password</h2> 
-            <input type="password" placeholder="Enter your password to save changes" class="editInputBar" name="password">
             <p class="error">{{error}}</p>
-            <input type="text" id="user_dp" name="userpp">
+            <input type="text" id="user_dp" name="userpp" class="hide">
             <div class="submitBackground">
             <input type="submit" value="Save changes" class="submitButton">
             </div>
+            
+            <input type="file" name="image_upload" id="file" onchange="file_f()" class="hide">
+            
             </form>
             </div>
             
         </div>
         
     </div>
-    <a href="" id="a" class="hide">download</a>
-    <input type="file" name="" id="file" onchange="file_f()" class="hide">
-
+    </div>
+    
 </body>
 </html>

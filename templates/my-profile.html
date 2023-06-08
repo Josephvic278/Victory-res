@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='my-profile.css')}}">
+    
+    <link rel="stylesheet" href="{{url_for('static',filename='user_page.css')}}">
+    <script src="{{url_for('static', filename='user_page.js')}}"></script>
+    <title>Page title</title>
+</head>
+<body>
+    
+    <div class="top_box_body">
+        <div class="top_box">
+            
+            <div class="cover_photo">
+                
+            </div>
+            
+            <div class="p_line"></div>
+            
+            <div class="user_dp_body">
+            
+            {% set user_dp = user_db.user_dp %}                
+            <img src="{{user_dp}}" alt=""></img>
+            
+            <div class="user_names">
+                <p>{{user_db.first_name}} {{user_db.last_name}}</p>
+                <h4 class="username">{{user_db.user_name}}</h4>
+            </div>
+            
+        </div>
+            
+            <div class="edit_profile_btn_box">
+                <div class="edit_profile_btn">
+                    
+                <a href="{{url_for('edit_profile')}}"><button class="button1"><img src="{{url_for('static', filename='pencil.png')}}" alt=""></img> Edit profile</button></a>
+                <button class="button2">...</button>
+                
+                </div>
+            </div>
+            
+            <div class="bio">
+                {% set userbio = user_db.user_bio %}
+                <p>{{userbio}}</p>
+                
+            </div>
+            <hr>
+            
+            <div class="user_interacted_body">
+            <div class="user_interacted">
+                
+                <div class="text_post">
+                    <p>Post</p>
+                </div>
+                
+                <div class="text_photo">
+                    <p>Photos</p>
+                </div>
+                
+               <div class="text_video">
+                   <p>Video</p>
+               </div> 
+                
+                <div class="text_friends">
+                    <p>Friends</p>
+                </div>
+                
+            </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    <div class="create_post_box" id="post_box_a">
+        
+        <div class="post_input_box">
+            
+            <div class="post_user_dp">
+                <img src="{{user_dp}}" alt=""></img>
+               <form method="POST" action="{{url_for('user_page')}}">
+                   
+                <div class="mini_post_btn">
+                    <input type="submit" value="Post">
+                </div>
+            </div>
+            
+            <div class="post_input">
+                <input type="text" placeholder="Share your ideas..." name="content">
+               </form> 
+            </div>
+            
+            <input type="text" id="filen"class="hide" name="filename">
+            
+            <div class="add_media">
+                
+                <div class="add_photo" onclick="open_addimage()">
+                    <img src="{{url_for('static',filename='photo.png')}}" alt=""></img > <p>add photo</p>
+                </div>
+                
+                <div class="add_video">
+                    <img src="{{url_for('static',filename='video.png')}}" alt=""></img> <p>add video</p>
+                </div>
+                
+                <div class="add_audio">
+                    <img src="{{url_for('static',filename='mic.png')}}" alt=""></img> <p>add audio</p>
+                </div>
+            
+                <div class="add_file">
+                    <img src="{{url_for('static',filename='file.png')}}" alt=""></img> <p>add file</p>
+                </div>
+            
+            </div>
+        
+        </div>
+    
+    </div>
+     </div>
+    
+    
+    <div class="post_body">
+        {% for post_db in bp_data %}
+            <div class="post_box">
+                
+                {% if post_db.user_id == uid %}
+                <div class="option_bar">
+                    <img src="{{url_for('static',filename='more.png')}}" alt=""></img>
+                </div>
+                
+                <div class="user_post_details">                                                               
+                
+                <div class="post_dp">
+                <img src="{{user_dp}}" alt=""></img>
+                <div class="post_text">
+                    <p>{{post_db.author}} <span class="dot">.</span> <span class="date">{{post_db.date_time}}</span></p>
+                    <h3>{{user_db.user_name}}</h3>
+                </div>
+                               
+                </div>
+                
+                <div class="post_content">
+                   
+                   {% if post_db.article|length> 100 %}
+                    <h1 id="min_text">{{post_db.article}}</h1>
+                    {% else %}
+                    
+                    <h1>{{post_db.article}}</h1>
+                    
+                    {% endif %}
+                   
+                   {% set post_img = post_db.img_path %}
+                   {% if post_img!="" %}
+                        <div class="post_image_body">
+                        <img src="{{post_img}}" alt=""></img>
+                        </div>
+                   {% endif %}     
+                    
+                    <hr>
+                </div>
+                
+                
+                </div>
+                
+                <div class="interaction_box">
+                    <div class="i_box">
+                    <div class="like">
+                        <img src="{{url_for('static', filename='like.png')}}" alt=""></img>
+                    </div>
+                    
+                    <div class="comment">
+                        <img src="{{url_for('static', filename='comment.png')}}" alt=""></img>
+                    </div>
+                    
+                    <div class="love">
+                        <img src="{{url_for('static', filename='love.png')}}" alt=""></img>
+                    </div>
+                    
+                </div>
+            </div>
+            {% endif %}
+            </div>
+        
+       {% endfor %}         
+    </div>
+    
+    
+    <div class="add_image_body" id="add_image">
+        
+        <div class="add_image_box">
+            
+            <div class="cancel_btn" onclick="close_add()">
+                <h1 class="c_btn">×</h1>
+            </div>
+            
+            <h1 class="class_h1">Add an image to your post</h1>
+            <hr>
+            
+            <img src="{{user_dp}}" alt="" class="user_dpi"></img>
+            <form method="POST" action="{{url_for('user_page')}}" enctype="multipart/form-data">
+                    
+            <input type="text" class="post_inputi" placeholder="Inspire others..." name="content1">            
+            
+            <div class="add_img" >
+                <img src="{{url_for('static',filename='Attachment icon.png')}}" alt="" class="attachment_img" id="dmi" ></img>
+            </div>
+            
+            <div class="final_btn">
+                <span class="btn1"><label for="file">add photo</label></span> 
+                <input type="submit" class="btn2" value="Post">
+            </div>
+            
+            <input type="file" name="image_upload" id="file" onchange="file_f()" class="hide" >
+            <input type="text" id="file_name" value="100" class="hide" name="filename">
+            
+            </form>
+            
+        </div>
+        
+    </div> 
+    
+</body>
+</html>

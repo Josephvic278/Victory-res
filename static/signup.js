@@ -1,48 +1,48 @@
 function check_pass() {
-    pass_input = document.getElementById("password").value;
-    first_err = document.getElementById("fp");
-    second_err = document.getElementById("fp2")
-    third_err = document.getElementById("fp3")
-    sb_c = document.getElementById("sub");
-        
-    if (pass_input.length > 8) {
-        first_err.style.background = "green";
-    } else {
-        first_err.style.background = "red";
-    }
+  const pass_input = document.getElementById("password").value;
+  const pass_track = document.getElementById("pass_track");
+  const sb_c = document.getElementById("sub");
 
-    var simlist = /[._%|=<>{}@#£_&-+()*""'':;!?]/;
-    if (simlist.test(pass_input)){
-        second_err.style.background = "green";
-        sb_c.disabled=false;
-    }
-    else{
-        second_err.style.background = "red";
-        sb_c.disabled=true;
-    }
-     
-    if (pass_input !== pass_input.toLowerCase()) {
-        third_err.style.background = "green";
-        } 
-    else {
-            third_err.style.background = "red";
-        }
-    }
+  const simlist = /[._%|=<>{}@#£_&-+()*""'':;!?,$]/;
+  const pass_len = pass_input.length > 8;
+  const pass_upper = /[A-Z]/.test(pass_input);
+  const pass_sym = simlist.test(pass_input);
+  let pass_text = document.getElementById("pass_text")
 
-    function eye() {
-        pass_i = document.getElementById("password");
-        if (pass_i.type == "password") {
-            pass_i.type = "text"
-        } else {
-            pass_i.type = "password"
-        }
+  let strength = 0;
 
-    }
+  if (pass_len) {
+    strength += 25;
+    pass_track.style.backgroundColor = "red";
+    pass_track.style.width = strength + "%";
+    pass_text.textContent = "Ok"
+  } else {
+    pass_track.style.width = "0%";
+    pass_text.textContent = "Not good enough"
+  }
 
-    function in_c() {
-        sb_c = document.getElementById("sub");
-        sb_c.disabled = false;
-    }
+  if (pass_sym) {
+    strength += 25;
+    pass_track.style.backgroundColor = "yellow";
+    pass_track.style.width = strength + "%";
+    sb_c.disabled = false;
+    pass_text.textContent = "Good"
+  } else {
+    pass_track.style.width = strength + "%";
+    pass_track.style.backgroundColor = "red";
+    sb_c.disabled = true;
+    pass_text.textContent = "Need a little work"
+  }
+
+  if (pass_upper) {
+    strength += 25;
+    pass_track.style.backgroundColor = "green";
+    pass_track.style.width = strength + "%";
+    pass_text.textContent = "Excellent"
+  } else {
+    pass_track.style.width = strength + "%";
+  }
+}
 
     function run() {
         fn = document.getElementById("firstname");
@@ -60,7 +60,7 @@ function check_pass() {
             ps]
         for (i = 0; i < data_list.length; i++) {
             if (data_list[i].value == "") {
-                data_list[i].style.border = "2px solid red"
+                data_list[i].style.boxShadow = "0 5px 5px rgba(255, 0, 0, 0.1)"
             } else {
                 comf = comf+"t"
             }
@@ -72,5 +72,21 @@ function check_pass() {
             sb.disabled = true;
 
         }
+        
         setInterval(in_c, 2000)
     }
+
+function passcheck(){
+     var pass_img = document.getElementById("pass_img")
+     var pass_bar = document.getElementById("password")
+     
+     if (pass_img.src == 'http://localhost:5000/static/closedeye.png') {
+         pass_img.src = 'http://localhost:5000/static/openeye.png';
+         pass_bar.type = "text";
+     }
+     
+     else{
+         pass_img.src = 'http://localhost:5000/static/closedeye.png';
+         pass_bar.type = "password";
+     }
+}

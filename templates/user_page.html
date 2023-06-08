@@ -6,8 +6,10 @@
     <script src="{{url_for('static', filename='user_page.js')}}"></script>
     <link rel="stylesheet" href="{{url_for('static',filename='user_page.css')}}">
     <title>Page title</title>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>    
 </head>
-<body>
+<body">
     {% set u_l = [] %}
     {% for it in  db_data %}
     {% if uid == it.id %}
@@ -15,87 +17,228 @@
     {% set _ = u_l.append(it.last_name) %}
     {% set _= u_l.append(it.user_name) %}
     {% set _= u_l.append(it.email) %}
-    {% set _= u_l.append(it.password) %}
+    {% set _= u_l.append(it.user_dp) %}
     {% endif %}
     {% endfor %}
     
-    <div class="top_bar" id="menuBar">
-        <img src="{{url_for('static',filename='Nlogo.png')}}" alt="" class="logo"></img>
+    <input type="text" cclass="hide" id="user_email" value="{{u_l[3]}}" class="hide">
+    <div class="top_nav">
         
-        <img src="{{url_for('static',filename='menu_btn1.png')}}" alt="" class="menuButton" onclick="openUserProfile()"></img>
+        <div class="home_icon">
+            <img src="{{url_for('static',filename='home.png')}}" alt=""></img>
+        </div>
         
-        <img src="{{url_for('static',filename='bell.png')}}" alt="" class="notificationButton"></img>
+        <div class="user_icon">
+            <img src="{{user_pic}}" alt="" onclick="open_user_menu()"></img>
+        </div>
+        
+        <div class="notification_icon">
+            <img src="{{url_for('static',filename='notification.png')}}" alt=""></img>
+        </div>
+        
+        <div class="message_icon">
+            <img src="{{url_for('static',filename='message.png')}}" alt=""></img>
+        </div>
+        
+        <div class="setting_icon">
+            <img src="{{url_for('static',filename='setting.png')}}" alt=""></img>
+        </div>
+        
     </div>
     
-    <div class="userProfile" id="userProfile">
-        <div class="topBox">
+    <div class="my_profile_open_box" id="user_menu">
+        <div class="my_profile_box">
             
-            <h2 class="myProfileText">My<br><b>Profile</b></h2>
-            <img src="{{url_for('static',filename='close.png')}}" alt="" class="closeProfileButton" onclick="closeUserProfile()"></img>
-            <div class="userBoxBackground">
-            <div class="userBox">
-              
-              <div class="userProfilePictureBackground"> 
-                <img src="{{pic_url}}" alt="" class="userProfilePicture">
-                   <a href="{{url_for('edit_profile',uid=uid,un=un)}}"><img src="{{url_for('static',filename='camera.png')}}" alt="" class="cameraIcon" onclick="changeDp()"></img> 
+            <div class="mpdp">
+                {% set img_dp = u_l[4] %}
+                <img src="{{img_dp}}" alt=""></img>
                 
-            </img></a>
-                </img>
-                
-                <a href="{{url_for('edit_profile',uid=uid,un=un)}}"><img src="{{url_for('static',filename='edit.png')}}" alt="edit button" class="editProfileButton" ></img></a> 
-                             
-                <h2 class="userFirstandLastName">{{u_l[0]}} {{u_l[1]}}</h2>
-                <h2 class="userName">{{u_l[2]}}</h2>
-                
-                <div class="userEngagement">
-                    <h3 class="userEngagementText1"><b class="engagementNumbers">0</b><br>Likes</h3>
-                    <h3 class="userEngagementText"><b class="engagementNumbers">0</b><br>Views</h3>
-                    <h3 class="userEngagementText"><b class="engagementNumbers">0</b><br>Follow</h3>
-                    
+                <div class="mpdpp">
+                <p>{{u_l[0]}} {{u_l[1]}}</p>
+                <div class="mpdpu">
+                    <p>{{u_l[2]}}</p>
+                </div>
                 </div>
                 
             </div>
+            
+            <div class="edit_profile_btn">
+                <button><a href="{{url_for('my_profile')}}">view profile</a></button>
             </div>
-             
+            
+            <div class="settings_and_privacy">
+                    <img src="{{url_for('static', filename='setting1.png')}}" alt=""></img>
+                    <p><a href="{{url_for('edit_profile')}}">Settings and privacy</a></p>
+                </div>
+            
+            <div class="report">
+            <img src="{{url_for('static', filename='report.png')}}" alt=""></img>
+                <p><a href="{{url_for('log_in')}}">Report</a></p>
             </div>
-             
-        </div>
-        
-        <div class="userOptions">
-        
-        <div class="optionBoxes">
-            <img src="{{url_for('static',filename='skills.png')}}" alt="" class="optionIcons"></img>
-            <h1 class="optionIconsH1">Account<p class="optionIconsP">Account information and Settings.</p></h1>           
-        </div>
-        
-        <div class="optionBoxes">
-            <img src="{{url_for('static',filename='comments.png')}}" alt="" class="optionIcons"></img>
-            <h1 class="optionIconsH1">Messages <p class="optionIconsP">Receive and Reply messages from other users.</p></h1>
+            
+            <hr>
+            <div class="log_out">
+                <img src="{{url_for('static', filename='log_out.png')}}" alt=""></img>
+                <p><a href="{{url_for('log_in')}}">Logout</a></p>
+            </div>
             
         </div>
         
-        <div class="optionBoxes">
-            <img src="{{url_for('static',filename='friends.png')}}" alt="" class="optionIcons"></img>
-            <h1 class="optionIconsH1">Friends<p class="optionIconsP">View friends and followers.</p>  </h1>      
+        
         </div>
         
-        <div class="optionBoxes">
-            <img src="{{url_for('static',filename='info.png')}}" alt="" class="optionIcons"></img>
-            <h1 class="optionIconsH1">About us<p class="optionIconsP">Learn more about us and what we do.</p></h1>
+    </div>
+    
+    <div class="create_post_box">
+        
+        <div class="post_input_box">
+            
+            <div class="post_user_dp">
+                <img src="{{user_pic}}" alt=""></img>
+               <form method="POST" action="{{url_for('user_page')}}">
+                   
+                <div class="mini_post_btn">
+                    <input type="submit" value="Post">
+                </div>
+            </div>
+            
+            <div class="post_input">
+                <input type="text" placeholder="Share your ideas..." name="content">
+               </form> 
+            </div>
+            
+            <input type="text" id="filen"class="hide" name="filename">
+            
+            <div class="add_media">
+                
+                <div class="add_photo" onclick="open_addimage()">
+                    <img src="{{url_for('static',filename='photo.png')}}" alt=""></img > <p>add photo</p>
+                </div>
+                
+                <div class="add_video">
+                    <img src="{{url_for('static',filename='video.png')}}" alt=""></img> <p>add video</p>
+                </div>
+                
+                <div class="add_audio">
+                    <img src="{{url_for('static',filename='mic.png')}}" alt=""></img> <p>add audio</p>
+                </div>
+            
+                <div class="add_file">
+                    <img src="{{url_for('static',filename='file.png')}}" alt=""></img> <p>add file</p>
+                </div>
+            
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="post_body">
+        {% for post_data in bp_data %}
+            <div class="post_box">
+                
+                <div class="option_bar">
+                    <img src="{{url_for('static',filename='more.png')}}" alt=""></img>
+                </div>
+                
+                <div class="user_post_details">
+                {% for id_data in db_data %}
+                
+                {% if post_data.user_id == id_data.id %}
+                {% set post_dp = id_data.user_dp %}
+                
+                <input type="text" name="" value="{{post_data.post_likes}}" id="ul_db">
+                {% set s = post_data.post_likes %}
+                <p>{{s[0]}}</p>
+                <p></p>
+                <div class="post_dp">
+                <img src="{{post_dp}}" alt=""></img>
+                <div class="post_text">
+                    <p>{{post_data.author}} <span class="dot">.</span> <span class="date">{{post_data.date_time}}</span></p>
+                    <h3>{{id_data.user_name}}</h3>
+                </div>
+                               
+                </div>
+                
+                <div class="post_content">
+                   
+                   {% if post_data.article|length >50 %}
+                    <h1 id="min_text">{{post_data.article}}</h1>
+                    {% else %}
+                    <h1>{{post_data.article}}</h1>
+                    {% endif %}
+                    
+                    {% if post_data.img_path != "" %}
+                        {% set img_src = post_data.img_path %}
+                        <div class="post_image_body">
+                        <img src="{{img_src}}" alt=""></img>
+                        </div>
+                        
+                    {% endif %}
+                    <hr>
+                </div>
+                
+                {% endif %}
+                {% endfor %}
+                </div>
+                
+                <div class="interaction_box">
+                    <div class="i_box">
+                    <div class="like" onclick="toggleLike({{post_data.id}})">
+                        <img src="{{url_for('static', filename='like.png')}}" alt="" id="" data-post-id="{{post_data.id}}"></img>
+                        
+                        <input type="text" value="{{url_for('static', filename='like1.png')}}" id="fp" class="hide">
+                        <input type="text" value="{{url_for('static', filename='like.png')}}" id="fp1" class="hide">
+                    </div>
+                    
+                    <div class="comment">
+                        <img src="{{url_for('static', filename='comment.png')}}" alt=""></img>
+                    </div>
+                    
+                    <div class="love">
+                        <img src="{{url_for('static', filename='love.png')}}" alt=""></img>
+                    </div>
+                    
+                </div>
+            </div>
+            </div>
+        {% endfor %}
+                
+    </div>
+    
+    <div class="add_image_body" id="add_image">
+        
+        <div class="add_image_box">
+            
+            <div class="cancel_btn" onclick="close_add()">
+                <h1 class="c_btn">×</h1>
+            </div>
+            
+            <h1 class="class_h1">Add an image to your post</h1>
+            <hr>
+            
+            <img src="{{user_pic}}" alt="" class="user_dpi"></img>
+            <form method="POST" action="{{url_for('user_page')}}" enctype="multipart/form-data">
+                    
+            <input type="text" class="post_inputi" placeholder="Inspire others..." name="content1">            
+            
+            <div class="add_img" >
+                <img src="{{url_for('static',filename='Attachment icon.png')}}" alt="" class="attachment_img" id="dmi" ></img>
+            </div>
+            
+            <div class="final_btn">
+                <span class="btn1"><label for="file">add photo</label></span> 
+                <input type="submit" class="btn2" value="Post">
+            </div>
+            
+            <input type="file" name="image_upload" id="file" onchange="file_f()" class="hide">
+            <input type="text" id="file_name" value="100" class="hide" name="filename">
+            
+            </form>
+            
         </div>
         
-       <div class="optionBoxes">
-            <img src="{{url_for('static',filename='logout.png')}}" alt="" class="optionIcons"></img>
-            <h1 class="optionIconsH1">Logout<p class="optionIconsP">Log out of your account .</p></h1>
-        </div> 
-        
-    </div>
-   <div class="termsAndConditions">
-          <p>Read our <a href="">Terms and Conditions</a></p>
-      </div>      
-      </div> 
-        
-    </div>
+    </div> 
     
 </body>
 </html>

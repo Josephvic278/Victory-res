@@ -6,15 +6,7 @@ function file_f() {
 				var path = URL.createObjectURL(file);
 
 				img = document.getElementById("img");
-				img.src = path;
-       filename = file.name;
-       
-       var a = document.getElementById("a")
-       a.href=path;
-       a.download=filename;
-       
-       document.getElementById("user_dp").value=filename
-       a.click();
+				img.src = path;                      
 }
 function changeDp() {
     file_f()

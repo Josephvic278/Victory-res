@@ -1,0 +1,13 @@
+.header{
+    text-align: center;
+    font-family: Calibri;
+    font-weight: 400;
+}
+.headerB{
+    color: #19A7CE;
+}
+body{
+    background: green;
+    text-align: center;
+    font-family: Calibri;
+}
