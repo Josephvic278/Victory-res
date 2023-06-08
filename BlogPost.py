@@ -40,7 +40,7 @@ class BlogPost(db.Model):
 	date_time = db.Column(db.String, nullable=False)
 	author = db.Column(db.String(20), nullable=False)
 	img_path = db.Column(db.String)
-	post_likes = db.Column(db.JSON)
+	post_likes = db.Column(db.String)
 
 # Define the User_signup model
 class User_signup(db.Model):
@@ -164,6 +164,7 @@ def log_in():
 def user_page():
 	#like = request.json.get("data")
 	#print(like)
+	new_dict = "h"
 	@socketio.on('like-data')
 	def like(like_data):
 		
@@ -172,19 +173,20 @@ def user_page():
 		post_like_data = db.session.query(BlogPost).filter_by(id = post_id).first()
 		likes_data_base = post_like_data.post_likes
 		user_like_email = like_data[0]
-		
-		new_dict = likes_data_base
+		like_id = like_data[1]
+		new_dict = ast.literal_eval(likes_data_base)
 		
 		if user_like_email in new_dict:
-			new_dict[user_like_email] = like_data[2]
-			post_like_data.post_likes = new_dict
+			print (like_data[1])
+			new_dict[user_like_email] = [like_id,like_data[2]]
+			post_like_data.post_likes = str(new_dict)
 			print(new_dict,type(new_dict))
 			db.session.commit()
 			
 		else:
-			print (type(new_dict))
-			new_dict[user_like_email] = like_data[2]
-			post_like_data.post_likes = new_dict
+			print (like_data[1])
+			new_dict[user_like_email] = [like_id,like_data[2]]
+			post_like_data.post_likes = str(new_dict)
 			print(new_dict,type(new_dict))
 			db.session.commit()
 		
@@ -211,7 +213,7 @@ def user_page():
 	post_content1 = request.form.get("content1")
 	add_photo_name = request.form.get("filename")
 	
-	j_d = {}
+	j_d = "{}"
 	if request.method == "POST":
 		print (post_content,post_content1,add_photo_name)
 
@@ -235,7 +237,12 @@ def user_page():
 		else:
 			return redirect (url_for("user_page"))
 	else:
-		return render_template("user_page.html", uid=uid, db_data=db_data, un=un, user_pic = user_pic,bp_data = bp_data), un
+		new_db_dict = []
+		likes_data1 = db.session.query(BlogPost).all()
+		for len_l in range (len(likes_data1)):
+			con_vert = ast.literal_eval(likes_data1[len_l].post_likes)
+			new_db_dict.append(con_vert)
+		return render_template("user_page.html", uid=uid, db_data=db_data, un=un, user_pic = user_pic,bp_data = bp_data,new_db_dict = new_db_dict), un
 
 email_list = []
 db_data = db.session.query(User_signup).all()

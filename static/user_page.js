@@ -55,23 +55,12 @@ function  toggleLike(postId) {
         
         const socket = io();
         var data = [uemail,postId,"liked"]
-        alert(data)
-        socket.emit('like-data',data);
-        
-        socket.on('response', function(response) {
-            alert(response.message);
-        });    
+        socket.emit('like-data',data);       
      }
     else {
         postImage.src = gray_img;
         const socket = io();
         var data = [uemail,postId,"unliked"]
-        alert(data)
-        socket.emit('like-data',data);
-        
-        socket.on('response', function(response) {
-            alert(response.message);
-        });    
-        
+        socket.emit('like-data',data);                           
     }  
 }

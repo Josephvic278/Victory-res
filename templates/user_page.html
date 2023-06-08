@@ -21,7 +21,7 @@
     {% endif %}
     {% endfor %}
     
-    <input type="text" cclass="hide" id="user_email" value="{{u_l[3]}}" class="hide">
+    <input type="text" class="hide" id="user_email" value="{{u_l[3]}}" class="hide">
     <div class="top_nav">
         
         <div class="home_icon">
@@ -133,6 +133,8 @@
     
     </div>
     
+    {% set list_ = new_db_dict %}
+    {% set dict_ = list_[0] %}
     <div class="post_body">
         {% for post_data in bp_data %}
             <div class="post_box">
@@ -140,16 +142,18 @@
                 <div class="option_bar">
                     <img src="{{url_for('static',filename='more.png')}}" alt=""></img>
                 </div>
-                
+                {% set user_ld = dict_[u_l[3]] %}
+                {{list_}}
                 <div class="user_post_details">
-                {% for id_data in db_data %}
+                {% for id_data in db_data %}                
                 
                 {% if post_data.user_id == id_data.id %}
                 {% set post_dp = id_data.user_dp %}
                 
                 <input type="text" name="" value="{{post_data.post_likes}}" id="ul_db">
                 {% set s = post_data.post_likes %}
-                <p>{{s[0]}}</p>
+                
+                
                 <p></p>
                 <div class="post_dp">
                 <img src="{{post_dp}}" alt=""></img>
@@ -185,7 +189,13 @@
                 <div class="interaction_box">
                     <div class="i_box">
                     <div class="like" onclick="toggleLike({{post_data.id}})">
+                                    
+                        {% if user_ld[1] == "liked" %}
+                        
+                        <img src="{{url_for('static', filename='like1.png')}}" alt="" id="" data-post-id="{{post_data.id}}"></img>
+                        {% else %}
                         <img src="{{url_for('static', filename='like.png')}}" alt="" id="" data-post-id="{{post_data.id}}"></img>
+                        {% endif %}
                         
                         <input type="text" value="{{url_for('static', filename='like1.png')}}" id="fp" class="hide">
                         <input type="text" value="{{url_for('static', filename='like.png')}}" id="fp1" class="hide">
