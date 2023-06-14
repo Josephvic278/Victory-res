@@ -64,3 +64,8 @@ function  toggleLike(postId) {
         socket.emit('like-data',data);                           
     }  
 }
+
+function run_anim() {
+  var element = document.getElementById("abtn");
+  element.classList.toggle("ts")
+}

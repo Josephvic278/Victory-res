@@ -9,7 +9,7 @@
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>    
 </head>
-<body">
+<body>
     {% set u_l = [] %}
     {% for it in  db_data %}
     {% if uid == it.id %}
@@ -132,9 +132,7 @@
         </div>
     
     </div>
-    
-    {% set list_ = new_db_dict %}
-    {% set dict_ = list_[0] %}
+   
     <div class="post_body">
         {% for post_data in bp_data %}
             <div class="post_box">
@@ -142,17 +140,14 @@
                 <div class="option_bar">
                     <img src="{{url_for('static',filename='more.png')}}" alt=""></img>
                 </div>
-                {% set user_ld = dict_[u_l[3]] %}
-                {{list_}}
+             
                 <div class="user_post_details">
                 {% for id_data in db_data %}                
                 
                 {% if post_data.user_id == id_data.id %}
-                {% set post_dp = id_data.user_dp %}
+                {% set post_dp = id_data.user_dp %}                
                 
-                <input type="text" name="" value="{{post_data.post_likes}}" id="ul_db">
                 {% set s = post_data.post_likes %}
-                
                 
                 <p></p>
                 <div class="post_dp">
@@ -186,21 +181,46 @@
                 {% endfor %}
                 </div>
                 
+                {%set post_l = post_list%}
                 <div class="interaction_box">
                     <div class="i_box">
                     <div class="like" onclick="toggleLike({{post_data.id}})">
+                        {% if post_data.post_likes == "{}" %}                               
+                        <img src="{{url_for('static', filename='like.png')}}" alt="" id="" data-post-id="{{post_data.id}}"></img>                                       
+                        {% endif %}  
+                         
+                        
+                        {% for list_l in post_l %}
+                        
+                           {% for dict_l in list_l %}
+                          
+                                {% if dict_l and post_data.id == dict_l %}                    
+                               
+                                 {% if u_l[3] in list_l[dict_l] %}
+                                 
                                     
-                        {% if user_ld[1] == "liked" %}
-                        
-                        <img src="{{url_for('static', filename='like1.png')}}" alt="" id="" data-post-id="{{post_data.id}}"></img>
-                        {% else %}
-                        <img src="{{url_for('static', filename='like.png')}}" alt="" id="" data-post-id="{{post_data.id}}"></img>
-                        {% endif %}
-                        
+                                        {% set like_e = list_l[dict_l][u_l[3]] %}
+                                        {% if like_e =="liked"%}
+                                        <img src="{{url_for('static', filename='like1.png')}}" alt="" id="" data-post-id="{{post_data.id}}"></img>
+                                        {% else %}
+                                        <img src="{{url_for('static', filename='like.png')}}" alt="" id="" data-post-id="{{post_data.id}}"></img>
+                                        
+                                        {% endif %}
+                                        {% else %}
+                                        
+                                        <img src="{{url_for('static', filename='like.png')}}" alt="" id="" data-post-id="{{post_data.id}}"></img>
+                                        
+                                    {% endif %}
+                                    {% else %}
+                                {% endif %}                                    
+                            {% endfor %}
+                            
+                        {% endfor %}
+                                                                             
                         <input type="text" value="{{url_for('static', filename='like1.png')}}" id="fp" class="hide">
-                        <input type="text" value="{{url_for('static', filename='like.png')}}" id="fp1" class="hide">
+                        <input type="text" value="{{url_for('static', filename='like.png')}}" id="fp1" class="hide">                        
                     </div>
-                    
+                   
                     <div class="comment">
                         <img src="{{url_for('static', filename='comment.png')}}" alt=""></img>
                     </div>
@@ -211,7 +231,11 @@
                     
                 </div>
             </div>
+            <div class="comment_section">
+                            <textarea type="text" name="" id="" placeholder="Add a comment"></textarea>
+                        </div>
             </div>
+            
         {% endfor %}
                 
     </div>

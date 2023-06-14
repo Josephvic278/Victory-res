@@ -498,3 +498,25 @@ hr{
     text-decoration: none;
     color: #586060;
 }
+.comment_section{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-bottom: 15px;
+}
+.comment_section textarea{
+    height: 35px;
+    width: 90%;
+    text-indent: 5px;
+    font-family: Calibri;
+    padding: 8px;
+    text-orientation: upright;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+	  border-radius: 50px;
+	  outline: none;
+}
+.comment_section input::placeholder{
+    text-indent: 10px;
+    margin-top: 10px;
+}
