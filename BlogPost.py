@@ -229,8 +229,12 @@ def user_page():
 			return redirect(url_for("user_page"))
 
 		elif post_content1 != None:
-			if add_photo_name != None:
+			if add_photo_name != None:				
 				image_upload = request.files["image_upload"]
+				image_path = "/storage/emulated/0/bp/static/"+image_upload.filename
+				
+				image_upload.save(image_path)
+				
 				new_post = BlogPost(user_id = uid, article = post_content1, date_time = datetime.date.today(), author = user_fname+" "+user_sname, img_path = url_for('static',filename=image_upload.filename),post_likes = j_d)
 
 				db.session.add(new_post)

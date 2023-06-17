@@ -171,6 +171,7 @@
                         {% set img_src = post_data.img_path %}
                         <div class="post_image_body">
                         <img src="{{img_src}}" alt=""></img>
+                        
                         </div>
                         
                     {% endif %}
@@ -232,7 +233,8 @@
                 </div>
             </div>
             <div class="comment_section">
-                            <textarea type="text" name="" id="" placeholder="Add a comment"></textarea>
+                            <textarea type="text" name="" id="" placeholder="Add a comment" rows="1"></textarea>                         
+                                                  
                         </div>
             </div>
             
@@ -273,6 +275,31 @@
         </div>
         
     </div> 
-    
+    <div class="post_option_bg">
+        <div class="post_option_box">
+            <div class="post_option_content">
+                <div class="share_post">
+                    <img src="{{url_for('static',filename='share.png')}}" alt=""></img>
+                    <p>Share post</p>
+                </div>
+                <div class="delete_post">
+                    <img src="{{url_for('static',filename='delete.png')}}" alt=""></img>
+                    <p>Delete post</p>
+                </div>
+                <div class="hide_post">
+                    <img src="{{url_for('static',filename='hide.png')}}" alt=""></img>
+                    <p>Hide post</p>
+                </div>
+                <div class="report_post">
+                    <img src="{{url_for('static',filename='report1.png')}}" alt=""></img>
+                    <p>Report post</p>
+                </div>
+                <div class="save_post">
+                    <img src="{{url_for('static',filename='save.png')}}" alt=""></img>
+                    <p>Save Post</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

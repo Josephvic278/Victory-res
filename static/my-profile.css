@@ -154,3 +154,27 @@ hr{
 #post_box_a{
     margin-top: -50px;
 }
+.photos_body{
+    justify-content: center;
+    display: flex;
+    margin-top: 120px;
+    width: 100%;
+    display: none;
+    align-content: center;
+    margin-bottom: 20px;
+}
+.photos_body_con{
+    background: white;
+    border-radius: 5px;
+    width: 95%;
+    outline: 0.1px solid #eff2f6;
+		border: 1px solid rgba(0, 0, 0, 0.1);		
+}
+.user_image_body{
+    width: 100%;
+}
+.user_image_body img{
+    width: 150px;
+    top: 0;
+    margin: 5px;
+}
