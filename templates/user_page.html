@@ -132,13 +132,14 @@
         </div>
     
     </div>
-   
+
     <div class="post_body">
         {% for post_data in bp_data %}
             <div class="post_box">
                 
-                <div class="option_bar">
+                <div class="option_bar" onclick="toggleOption({{post_data.id}})">
                     <img src="{{url_for('static',filename='more.png')}}" alt=""></img>
+                 
                 </div>
              
                 <div class="user_post_details">
@@ -222,7 +223,7 @@
                         <input type="text" value="{{url_for('static', filename='like.png')}}" id="fp1" class="hide">                        
                     </div>
                    
-                    <div class="comment">
+                    <div class="comment" onclick="comment_area({{post_data.id}})">
                         <img src="{{url_for('static', filename='comment.png')}}" alt=""></img>
                     </div>
                     
@@ -232,20 +233,50 @@
                     
                 </div>
             </div>
+            <input type="text" value="{{uid}}" id="ud" class="hide">
             <div class="comment_section">
-                            <textarea type="text" name="" id="" placeholder="Add a comment" rows="1"></textarea>                         
-                                                  
+                            <textarea type="text" name="" id="" placeholder="Add a comment" rows="1" comment-id = "{{post_data.id}}"></textarea>                         
+                                     <button onclick="post_comment({{post_data.id}})" class="comment_btn">post</button>             
                         </div>
             </div>
+            
+      <div class="post_option_bg" id="opt_box" post-opt-id="{{post_data.id}}" onclick="close_opt_box({{post_data.id}})">
+          
+        <div class="post_option_box">
+            <div class="post_option_content">
+                <div class="share_post">
+                    <img src="{{url_for('static',filename='share.png')}}" alt=""></img>
+                    <p>Share post</p>
+                </div>
+                {% set post_user_id = post_data.user_id %}
+                {% if post_user_id == uid %}
+                <div class="delete_post" onclick="delete_post({{post_data.id}})">
+                    <img src="{{url_for('static',filename='delete.png')}}" alt=""></img>
+                    <p>Delete post</p>
+                </div>
+                {% endif %}
+                
+                <div class="hide_post">
+                    <img src="{{url_for('static',filename='hide.png')}}" alt=""></img>
+                    <p>Hide post</p>
+                </div>
+                <div class="report_post">
+                    <img src="{{url_for('static',filename='report1.png')}}" alt=""></img>
+                    <p>Report post</p>
+                </div>
+                <div class="save_post">
+                    <img src="{{url_for('static',filename='save.png')}}" alt=""></img>
+                    <p>Save Post</p>
+                </div>
+            </div>
+        </div>
+    </div>
             
         {% endfor %}
                 
     </div>
-    
-    <div class="add_image_body" id="add_image">
-        
-        <div class="add_image_box">
-            
+<div class="add_image_body" id="add_image">
+    <div class="add_image_box">  
             <div class="cancel_btn" onclick="close_add()">
                 <h1 class="c_btn">×</h1>
             </div>
@@ -263,7 +294,7 @@
             </div>
             
             <div class="final_btn">
-                <span class="btn1"><label for="file">add photo</label></span> 
+                <span class="btn1"><label for="file"><p>add photo</p></label></span> 
                 <input type="submit" class="btn2" value="Post">
             </div>
             
@@ -275,31 +306,60 @@
         </div>
         
     </div> 
-    <div class="post_option_bg">
-        <div class="post_option_box">
-            <div class="post_option_content">
-                <div class="share_post">
-                    <img src="{{url_for('static',filename='share.png')}}" alt=""></img>
-                    <p>Share post</p>
-                </div>
-                <div class="delete_post">
-                    <img src="{{url_for('static',filename='delete.png')}}" alt=""></img>
-                    <p>Delete post</p>
-                </div>
-                <div class="hide_post">
-                    <img src="{{url_for('static',filename='hide.png')}}" alt=""></img>
-                    <p>Hide post</p>
-                </div>
-                <div class="report_post">
-                    <img src="{{url_for('static',filename='report1.png')}}" alt=""></img>
-                    <p>Report post</p>
-                </div>
-                <div class="save_post">
-                    <img src="{{url_for('static',filename='save.png')}}" alt=""></img>
-                    <p>Save Post</p>
-                </div>
-            </div>
+
+{% for sort_list in post_comment_list %}
+    {% set post_cid = sort_list[0] %}
+    <div class="comment_area" post-id="{{post_cid}}">
+        <h1 class="close_comment" onclick="close_comm({{post_cid}})">×</h1>
+        {% set com_dict = sort_list[1:] %}
+        <div class="comment_header">
+            <div class="c_header_text">
+                <p>Comments</p>|
+                <h1 class="com_count">{{com_dict|length}}</h1>
+            </div>                                
+        </div>               
+        <hr>
+        {% for dict_sort in com_dict %} 
+        <div class="comment_bg">
+            {% for get_data in db_data %}
+            {% for inner_dict in dict_sort %}                
+                {% if get_data.id == inner_dict %} 
+                {% set u_pp = get_data.user_dp %}
+                <div class="u_pp">
+                    <img src="{{u_pp}}" alt=""></img>
+                </div>       
+                <div class="comment_box">
+                    <div class="u_name">
+                        <p>{{get_data.first_name}} {{get_data.last_name}}</p> <img src="{{url_for('static', filename='more.png')}}" alt=""></img>
+                    </div>
+                    <div class="comment">
+                        <p>
+                            {{dict_sort[inner_dict]}}
+                        </p>
+                    </div>
+                </div>             
+                {% endif %}
+            {% endfor %}
+            {% endfor %}
         </div>
+        {% endfor %}            
+    </div>    
+    {% if sort_list == [] %}
+    <div class="comment_area1" id="comment_area1" post-id="{{post_cid}}">
+        <div class="no_com">
+            <div class="n_comh">
+                <h1>No comments</h1>
+                <p>this post has no comments yet!!!</p>
+            </div>
+        </div>      
     </div>
+    {% endif %}
+{% endfor %}
+
+<div class="comment_alert" id="c_alert">
+    <div class="c_alert">
+        <p>posting...</p>
+    </div>
+</div>
 </body>
 </html>

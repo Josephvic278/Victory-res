@@ -10,9 +10,9 @@
     <title>Page title</title>
     
     <script src="{{url_for('static', filename='my-profile.js')}}"></script>
+    <script     src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>    
 </head>
-<body>
-    
+<body>    
     <div class="top_box_body">
         <div class="top_box">
             
@@ -46,19 +46,22 @@
             <div class="bio">
                 {% set userbio = user_db.user_bio %}
                 <p>{{userbio}}</p>
-                
-            </div>
-            <hr>
+               
+            </div>            
+            
+            <div class="centre_hr">
+                <hr>
+            </div>            
             
             <div class="user_interacted_body">
             <div class="user_interacted">
                 
                 <div class="text_post">
-                    <p>Post</p>
+                    <p onclick="tab_post({{0}})">Post</p>
                 </div>
                 
                 <div class="text_photo">
-                    <p onclick="tab_photos()">Photos</p>
+                    <p onclick="tab_photos({{1}})">Photos</p>
                 </div>
                 
                <div class="text_video">
@@ -72,10 +75,19 @@
             </div>
             </div>
             
+            <div class="line_bg">
+            <div class="line_div_bg">
+                {% for line in range(4) %}
+                 <div class="line_div" line_id="{{line}}">
+                    
+                </div>  
+                {% endfor %} 
+            </div>
+        </div>        
         </div>
         
     </div>
-    
+           
     <div class="create_post_box" id="post_box_a">
         
         <div class="post_input_box">
@@ -209,7 +221,7 @@
             </div>
             
             <div class="final_btn">
-                <span class="btn1"><label for="file">add photo</label></span> 
+                <span class="btn1"><label for="file"><p>add photo</p></label></span> 
                 <input type="submit" class="btn2" value="Post">
             </div>
             
@@ -231,10 +243,8 @@
                 {% if post_db.user_id == uid %}
                 {% set post_image = post_db.img_path %}
                 
-                {% if post_image!=None %}
-                
-                
-                    <img src="{{post_image}}" alt=""></img>                                        
+                {% if post_image!=None %}                                
+                                    <img src="{{post_image}}" alt=""></img>                                        
                 {% endif %}
                 {% endif %}
             {% endfor %}
@@ -242,6 +252,109 @@
             
         </div>    
     </div>
+
+<div class="friends_tab">    
+    <div class="f_bg">
+        <div class="friends">
+             <div class="friend_request_bg">
+                <div class="friend_request">
+                    <p>Friend request <b>{{f_requ|length}}</b></p> 
+                </div>               
+            </div>         
+            <div class="f_req">
+                {% for req in f_requ %}                               
+                    {% for get_udata in db_data %}
+                        {% if req == get_udata.id %}
+                        <div class="f_req_con">
+                            {% set req_dp = get_udata.user_dp %}
+                            <img src="{{req_dp}}" alt=""></img>
+                           <div class="req_info">
+                               <h1>{{get_udata.first_name}}   {{get_udata.last_name}}</h1>
+                               <div class="req_btns">
+                                   <button class="btn_1" onclick="accept_req({{get_udata.id}})" id="acc{{get_udata.id}}">accept</button>
+                                   <button class="btn_2" onclick="decline_req({{get_udata.id}})" id="dec{{get_udata.id}}">decline</button>
+                               </div>
+                           </div> 
+                        </div>                       
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>      
+        </div>
+    </div>
+        
+    <div class="f_bg">
+        <div class="friends">
+            <div class="f_d">
+                <div class="f_db">
+                    <p>Friends <b class="tab_amt">{{friend_list|length}}<b> </p>
+                </div>
+            </div>             
+            {% if user_db.friends == "{}" %} 
+                <div class="no_freinds">
+                  <h1>You have no friends!!!</h1>  
+                </div> 
+                  <div class="search_input">
+                      <input type="text" placeholder="Search for a user!!!">
+                  </div> <br><br> 
+            {% else %}
+                <div class="fr_con">
+                    {% for get_f in friend_list %}
+                    {% for u_ddb in db_data %}
+                        {% if get_f == u_ddb.id %}
+                            {% set f_img = u_ddb.user_dp %}
+                            <img src="{{f_img}}" alt=""></img>
+                            <div class="fr_info">
+                               <h1>{{u_ddb.first_name}}   {{u_ddb.last_name}}</h1> 
+                               <div class="fr_btns">
+                                   <button class="btn1i">view profile</button>
+                                   <button class="btn1ii">message</button>
+                               </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                </div>     
+            {% endif %}            
+                                                  
+        </div>
+    </div>    
     
+    <div class="f_bg">
+        <div class="friends">
+             <div class="sug_bg">
+                <div class="sug">
+                    <p>Suggestions</p>                    
+                </div>
+            </div>
+            
+            <div class="suggestions">
+                {% for sug_u in sug_list %}
+                {% for get_su in db_data %}
+                    {% if sug_u not in friend_list %}  
+                    {% if sug_u not in f_requ %}              
+                    {% if get_su.id != uid %}
+                    {% if get_su.id == sug_u %}
+                        <div class="sug_con" sug_id="{{get_su.id}}">
+                            {% set s_dp = get_su.user_dp %}
+                            <img src="{{s_dp}}" alt="" class="s_dp"></img>
+                            <div class="add_info">
+                                <h1>{{get_su.first_name}}   {{get_su.last_name}}</h1>
+                                <div class="add_btns">
+                                    <button class="btn_a" id="sug{{get_su.id}}" onclick="add_f({{uid}},{{get_su.id}})">add friend</button> <button class="btn_b" btn_sugid1="{{get_su.id}}" onclick="rem_f({{get_su.id}})">remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% endif %}
+                    {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% endfor %}
+            </div> 
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

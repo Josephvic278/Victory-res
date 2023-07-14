@@ -361,9 +361,14 @@ hr{
     width: 100px;
     border: none;
     font-size: 14px;
+    text-align: center;
     color: gray;
     border-radius: 20px;
     background: #eff2f6;
+    margin-right: 10px;
+}
+.btn1 p{
+    margin-top: 11px;
 }
 .btn2{
     height: 40px;
@@ -373,6 +378,7 @@ hr{
     border: none;
     font-size: 14px;
     color: white;
+    margin-right: 10px;
     border-radius: 20px;
     background: #146C94;
 }
@@ -508,7 +514,7 @@ hr{
 }
 .comment_section textarea{
     height: 35px;
-    width: 90%;
+    width: 80%;
     text-indent: 5px;
     font-family: Calibri;
     padding: 8px;
@@ -528,6 +534,7 @@ hr{
     width: 100%;
     top: 0;
     z-index: 5;
+    display: none;    
 }
 .post_option_box{
     background: white;
@@ -553,4 +560,163 @@ hr{
 .share_post, .delete_post, .hide_post, .report_post, .save_post{
     margin: 20px;
     display: flex;
+}
+.comment_btn{
+    margin-left: 5px;
+    border: none;
+    font-weight: 400;
+    color: white;
+    height: 35px;
+    width: 50px;
+    background: #146C94;
+    border-radius: 10px;
+}
+.comment_area{
+    position: absolute;
+    top: 0;
+    height: 100%;    
+    width: 100%;
+    z-index: 9;
+    display: none;
+    background-color: #eff2f6;
+}
+.comment_area1{
+    position: fixed;
+    top: 0;
+    height: 100%;    
+    width: 100%;
+    z-index: 10;
+    display: none;
+    background-color: #eff2f6;    
+}
+.comment_bg{
+    display: flex;    
+    background-color: #eff2f6;
+    margin: 15px;
+}
+.comment_bg .u_pp img{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 100%;
+}
+.comment_box{
+    background: white;
+    margin-left: 5px;
+    margin-top: 5px;
+    max-width: 50%;
+    border-radius: 10px;
+}
+.u_name{
+    margin: 0;
+    display: flex;
+}
+.u_name img{
+    width: 15px;
+    height: 15px;
+    margin: 10px 10px 0px -3px;
+}
+.u_name p{
+    margin: 10px;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: 700;
+    font-size: 13px;
+}
+.comment{    
+    margin-top: -5px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.comment p{
+    margin: 0;
+    font-family: Arial;
+    font-size: 13px;
+    font-weight: 400;
+}
+.comment_header{
+    display: flex;
+    margin-left: 16px;    
+}
+.close_comment{   
+    margin: 0;
+    margin-right: 10px;
+    margin-top: 2px;
+    float: right;
+}
+.com_count{
+    font-weight: 900;
+    margin-right: 10px;
+}
+.r_icons{
+    margin: 10px;
+    display: flex;
+}
+.r_icons img{
+    width: 20px;
+}
+.c_header_text{
+    margin: 10px 0px;
+    display: flex;
+}
+.c_header_text h1{
+    font-family: Arial;
+    margin: 0;
+    margin-right: 10px;
+    font-size: 18px;    
+}
+.c_header_text p{
+    font-family: Arial;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 400;
+}
+hr{
+    margin: 0;
+}
+.no_com{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.n_comh{
+    margin-top: 20px;
+}
+.n_comh h1{
+    font-family: Arial;
+    color: #646464;
+    text-align: center;
+    margin: 0;
+}
+.n_comh p{
+    font-family: Arial;
+    color: #646464;
+    text-align: center;
+    margin: 1px;
+}
+.comment_alert{    
+    bottom: 50px;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    visibility: hidden;
+    opacity: 0;
+    transition: 2s;
+}
+.c_alert{
+    background: #545454;  
+    border-radius: 25px;  
+}
+.c_alert p{    
+    font-family: Calibri;
+    font-weight: 400;
+    text-align: center;
+    color: white;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+.frame{
+    background: green;
 }

@@ -41,6 +41,7 @@ class BlogPost(db.Model):
 	author = db.Column(db.String(20), nullable=False)
 	img_path = db.Column(db.String)
 	post_likes = db.Column(db.String)
+	post_comment = db.Column(db.String, nullable=False)	
 
 # Define the User_signup model
 class User_signup(db.Model):
@@ -53,7 +54,8 @@ class User_signup(db.Model):
 	password = db.Column(db.String, nullable=False)
 	user_dp = db.Column(db.String, nullable=False)
 	user_bio = db.Column(db.String, nullable=False)
-
+	friends = db.Column(db.String)
+	friend_req = db.Column(db.String)
 # Check if the database exists
 list_dir = os.listdir()
 if "main.db" not in list_dir and "user.db" not in list_dir:
@@ -97,7 +99,7 @@ def sign_up():
 			return render_template("signup.html", error=error)
 		else:
 			new_user = User_signup(first_name=first_name, last_name=last_name, user_name=user_name,
-								   email=email, password=hashed_password, user_dp=url_for('static',filename = "user.png"),user_bio = "Add a bio?")
+								   email=email, password=hashed_password, user_dp=url_for('static',filename = "user.png"),user_bio = "Add a bio?", friends="{}",friend_req = "[]")
 
 			db.session.add(new_user)
 			db.session.commit()
@@ -164,6 +166,38 @@ def log_in():
 def user_page():
 	#like = request.json.get("data")
 	#print(like)
+	@socketio.on("comment")
+	def comment (comment_data):
+	    if comment_data!="":
+	        user_id = int(comment_data[0])
+	        post_id = comment_data[1]
+	        comment = comment_data[2]
+	        print (type(user_id),type(post_id), type (comment))
+	        get_comment = db.session.query(BlogPost).filter_by(id = post_id).first()
+	        new_comment_dict = []
+	        
+	        comment_dict = ast.literal_eval(get_comment.post_comment)
+	        
+	        get_comment.post_comment=str(comment_dict)
+	        print (comment_dict)	        
+	        if post_id in comment_dict:
+	              comment_dict.append({user_id:comment})
+	              get_comment.post_comment=str(comment_dict)
+	              db.session.commit()
+	        else:
+	              comment_dict.append(post_id)
+	              comment_dict.append({user_id:comment})
+	              get_comment.post_comment=str(comment_dict)
+	              db.session.commit()
+               
+	@socketio.on('delete-post')
+	def delete_post(delete_data):
+		delete_post_id = delete_data["delete"]
+		get_post = db.session.query(BlogPost).filter_by(id = delete_post_id).first()
+		
+		db.session.delete(get_post)
+		db.session.commit()
+		
 	@socketio.on('like-data')
 	def like(like_data):
 		
@@ -217,11 +251,12 @@ def user_page():
 	add_photo_name = request.form.get("filename")
 	
 	j_d = "{}"
+	l_d = "[]"
 	if request.method == "POST":
 		print (post_content,post_content1,add_photo_name)
 
 		if post_content != None:
-			new_post = BlogPost(user_id = uid, article = post_content, date_time = datetime.date.today(), author = user_fname+" "+user_sname, img_path = None,post_likes = j_d)
+			new_post = BlogPost(user_id = uid, article = post_content, date_time = datetime.date.today(), author = user_fname+" "+user_sname, img_path = None,post_likes = j_d, post_comment=l_d)
 
 			db.session.add(new_post)
 			db.session.commit()
@@ -235,7 +270,7 @@ def user_page():
 				
 				image_upload.save(image_path)
 				
-				new_post = BlogPost(user_id = uid, article = post_content1, date_time = datetime.date.today(), author = user_fname+" "+user_sname, img_path = url_for('static',filename=image_upload.filename),post_likes = j_d)
+				new_post = BlogPost(user_id = uid, article = post_content1, date_time = datetime.date.today(), author = user_fname+" "+user_sname, img_path = url_for('static',filename=image_upload.filename),post_likes = j_d, post_comment=l_d)
 
 				db.session.add(new_post)
 				db.session.commit()
@@ -248,8 +283,12 @@ def user_page():
 		post_db = db.session.query(BlogPost).all()
 		for post_dbv in post_db:
 			post_list.append(ast.literal_eval(post_dbv.post_likes))
-						
-		return render_template("user_page.html", uid=uid, db_data=db_data, un=un, user_pic = user_pic,bp_data = bp_data,post_list = post_list), un
+		post_comment_db = db.session.query(BlogPost).all()
+		p_com_list = []
+		for each_com in post_comment_db:
+		    p_com_list.append(ast.literal_eval(each_com.post_comment))
+		    				
+		return render_template("user_page.html", uid=uid, db_data=db_data, un=un, user_pic = user_pic,bp_data = bp_data,post_list = post_list, post_comment_list = p_com_list), un
 
 email_list = []
 db_data = db.session.query(User_signup).all()
@@ -386,16 +425,48 @@ def edit_profile():
 
 #user profile route
 @app.route("/my-profile", methods=["GET","POST"])
-def my_profile():
-	uid = session.get("uid")
-	db_data = db.session.query(User_signup).all()
-	bp_data = db.session.query(BlogPost).all()
-	user_db = db.session.query(User_signup).filter_by(id = uid).first()
-
-	if request.method == "POST":
-		return "ok"
-	else:
-		return render_template("my-profile.html",uid=uid,user_db = user_db,db_data = db_data, bp_data = bp_data)
+def my_profile():	    
+    @socketio.on("add_f")
+    def add_f(data):
+        user_id1 = data["request"]
+        get_userd = db.session.query(User_signup).filter_by(id = user_id1[1]).first()
+	    
+        get_req = ast.literal_eval(get_userd.friend_req)
+        if user_id1[0] not in get_req:
+	        get_req.append(user_id1[0])
+	        get_userd.friend_req = str(get_req)
+	        print (get_userd)
+	        db.session.commit()
+	    	    
+    uid = session.get("uid")
+    db_data = db.session.query(User_signup).all()
+    bp_data = db.session.query(BlogPost).all()
+    user_db = db.session.query(User_signup).filter_by(id = uid).first()
+    
+    @socketio.on("req_accept")
+    def accep_req(data,uid=uid):
+        user_db1 = db.session.query(User_signup).filter_by(id = uid).first()
+        f_db = ast.literal_eval(user_db1.friends)        
+        data_val = data["accepted"]
+        if data_val not in f_db:
+            f_db[data_val]="friends"
+            users_fr = ast.literal_eval(user_db1.friend_req)
+            users_fr.remove(data_val)
+            user_db1.friend_req=str(users_fr)
+            user_db1.friends = str(f_db)            
+            print(user_db)
+            db.session.commit()
+            
+    if request.method == "POST":
+	    return "ok"
+    else:
+	    sug_list = []
+	    friend_list = ast.literal_eval(user_db.friends)
+	    for sug_l in db_data:
+		    sug_list.append(sug_l.id)
+	    rand_ids = random.sample(sug_list,len(sug_list))
+	    f_requ = ast.literal_eval(user_db.friend_req)	    
+	    return render_template("my-profile.html",uid=uid,user_db = user_db,db_data = db_data, bp_data = bp_data, sug_list = rand_ids, f_requ = f_requ,friend_list = friend_list)
 
 # About us route
 @app.route("/aboutUs", methods=["GET", "POST"])
