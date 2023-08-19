@@ -84,6 +84,8 @@ function close_opt_box(postid1) {
 }
 
 function delete_post(delete_post_id) {
+    var post_id = document.querySelector(`div[post-id-main="${delete_post_id}"]`)
+    post_id.style.display="none"
     const socket = io();
     var data = {"delete":delete_post_id}
     socket.emit('delete-post',data)

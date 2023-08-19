@@ -135,7 +135,7 @@
 
     <div class="post_body">
         {% for post_data in bp_data %}
-            <div class="post_box">
+            <div class="post_box" post-id-main="{{post_data.id}}">
                 
                 <div class="option_bar" onclick="toggleOption({{post_data.id}})">
                     <img src="{{url_for('static',filename='more.png')}}" alt=""></img>
@@ -171,8 +171,7 @@
                     {% if post_data.img_path != "" %}
                         {% set img_src = post_data.img_path %}
                         <div class="post_image_body">
-                        <img src="{{img_src}}" alt=""></img>
-                        
+                        <img src="{{img_src}}" alt=""></img>                       
                         </div>
                         
                     {% endif %}

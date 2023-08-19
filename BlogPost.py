@@ -266,7 +266,7 @@ def user_page():
 		elif post_content1 != None:
 			if add_photo_name != None:				
 				image_upload = request.files["image_upload"]
-				image_path = "/storage/emulated/0/bp/static/"+image_upload.filename
+				image_path = "/storage/emulated/0/Victory-res/static/"+image_upload.filename
 				
 				image_upload.save(image_path)
 				
@@ -287,7 +287,7 @@ def user_page():
 		p_com_list = []
 		for each_com in post_comment_db:
 		    p_com_list.append(ast.literal_eval(each_com.post_comment))
-		    				
+		
 		return render_template("user_page.html", uid=uid, db_data=db_data, un=un, user_pic = user_pic,bp_data = bp_data,post_list = post_list, post_comment_list = p_com_list), un
 
 email_list = []
@@ -466,7 +466,13 @@ def my_profile():
 		    sug_list.append(sug_l.id)
 	    rand_ids = random.sample(sug_list,len(sug_list))
 	    f_requ = ast.literal_eval(user_db.friend_req)	    
-	    return render_template("my-profile.html",uid=uid,user_db = user_db,db_data = db_data, bp_data = bp_data, sug_list = rand_ids, f_requ = f_requ,friend_list = friend_list)
+	    
+	    post_comment_db = db.session.query(BlogPost).all()
+	    p_com_list = []
+	    for each_com in post_comment_db:
+		    p_com_list.append(ast.literal_eval(each_com.post_comment))
+		    				
+	    return render_template("my-profile.html",uid=uid,user_db = user_db,db_data = db_data, bp_data = bp_data, sug_list = rand_ids, f_requ = f_requ,friend_list = friend_list,post_comment_list=p_com_list)
 
 # About us route
 @app.route("/aboutUs", methods=["GET", "POST"])

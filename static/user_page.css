@@ -108,6 +108,7 @@ body {
     font-size: 18px;
     z-index: 1;
     font-weight: 300;
+    background: none;
 }
 .post_input input::placeholder{
     text-indent: 20px;
@@ -320,7 +321,10 @@ hr{
     z-index: 1;
     margin-top: 10px;
     position: relative;
+    background: none;
     font-weight: 300;
+    margin-bottom: 5px;
+    border-bottom: 1.5px sold white;
 }
 .post_inputi::placeholder{
     text-indent: 20px;

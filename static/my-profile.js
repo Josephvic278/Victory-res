@@ -7,10 +7,12 @@ document.addEventListener('DOMContentLoaded', function(){
 function tab_post(tab_id){
     var tab_post = document.getElementById("post_body");
     var tab_photos = document.getElementById("post_photos");
+    var tab_friend = document.getElementById("tab_friend");
     if (tab_post.style.display!="block") {
        tab_post.style.display='block';
        tab_post.style.display="flex"
        tab_photos.style.display="none";
+       tab_friend.style.display="none"
        for (id = 0;id < 4; id++) {
            var lines = document.querySelector(`div[line_id="${id}"]`)
           if (id!=tab_id) {
@@ -27,9 +29,33 @@ function tab_post(tab_id){
 function tab_photos(tab_id){    
     var tab_photos = document.getElementById("post_photos");
     var tab_post = document.getElementById("post_body");
+    var tab_friend = document.getElementById("tab_friend");
     if (tab_photos.style.display!="block") {
        tab_photos.style.display='block' 
        tab_photos.style.display="flex"
+       tab_post.style.display="none" 
+       tab_friend.style.display="none"             
+       for (id = 0;id < 4; id++) {
+           var lines = document.querySelector(`div[line_id="${id}"]`)  
+           if (id!=tab_id) {
+               lines.style.borderBottom="5px solid white"
+               lines.style.width="0px"               
+           }
+           else{
+               lines.style.borderBottom="5px solid #146C94"
+               lines.style.width="90px"
+           }
+       }     
+    }
+}
+
+function tab_friend(tab_id){    
+    var tab_photos = document.getElementById("post_photos");
+    var tab_post = document.getElementById("post_body");
+    var tab_friend = document.getElementById("tab_friend");
+    if (tab_friend.style.display!="block") {
+       tab_friend.style.display='block'        
+       tab_photos.style.display="none"
        tab_post.style.display="none"              
        for (id = 0;id < 4; id++) {
            var lines = document.querySelector(`div[line_id="${id}"]`)  
@@ -44,6 +70,7 @@ function tab_photos(tab_id){
        }     
     }
 }
+
 function add_f(btn_id,r_id) {
     var btn_add = document.getElementById("sug"+r_id)   
     btn_add.style.width="50%"
